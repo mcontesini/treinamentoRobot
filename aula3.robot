@@ -1,3 +1,5 @@
+*** Settings ***
+Library    String
 *** Keywords ***
 Somar Números 1 
     [Arguments]    ${NUM-1}    ${NUM-2}
@@ -33,6 +35,35 @@ Completa e-mail
 Escrever e-mail "${NOME}"
     [Return]    ${NOME}@email.com.br
 
+Média Aluno "${NOTA-1}" e "${NOTA-2}"
+    ${RESULTADO}    Evaluate    (${NOTA-1} + ${NOTA-2}) / 2
+    [Return]    ${RESULTADO}  
+
+
+Numeros de 0 a 10
+    FOR    ${COUNT}    IN RANGE    0    11
+        Log To Console    ${COUNT}
+    END
+
+Números Crescentes
+    [Arguments]    ${INÍCIO-LISTA}    ${TAMANHO-LISTA}
+    ${TAMANHO-LISTA}    Evaluate    ${INÍCIO-LISTA} + ${TAMANHO-LISTA}
+    FOR    ${COUNT}    IN RANGE    ${INÍCIO-LISTA}    ${TAMANHO-LISTA}
+        Log To Console    ${COUNT}   
+    END  
+
+Contar Números Crescentes
+    [Arguments]    ${Tam-List}
+    FOR    ${COUNT}    IN RANGE    0    ${Tam-List}
+        Log To Console    ${COUNT}
+    END
+
+Lista Argumento
+    [Arguments]    @{ITENS} 
+    FOR    ${ITEM}    IN    @{ITENS}
+        Log To Console    ${ITEM}
+    END
+
 *** Test Cases ***
 Soma de dois números
     ${RESULTADO}    Somar Números 1    3    3
@@ -65,4 +96,27 @@ Teste do e-mail
     ${CONTA.EMAIL}    Escrever e-mail "Mateus"
     Log To Console    ${CONTA.EMAIL}
 
+Tabuada do 6
+    FOR    ${COUNT}    IN RANGE    0    11
+        ${RES}    Multiplicar os números "6" e "${COUNT}"
+        Log To Console   ${RES}
+    END   
+
+Situação Aluno
+    ${MÉDIA}    Média Aluno "5" e "8"  
+    Log To Console    A média do aluno é ${MÉDIA}
+
+Teste Contar Números
+    Numeros de 0 a 10
+
+Teste Números Crescentes
+    Números Crescentes    5    10  
+
+    Contar Números Crescentes    5  
+    Contar Números Crescentes    10         
+Teste Lista Argumento
+    @{ANIMAIS}    Create List    Cão    Gato    Elefante    Cavalo    Peixe
     
+    Lista Argumento    @{ANIMALES}
+*** Variable ***
+@{ANIMALES}    cão    gato    peixe
